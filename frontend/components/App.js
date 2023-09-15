@@ -19,17 +19,22 @@ export default class App extends React.Component {
     evt.preventDefault();
     this.postNewTodo(); 
   }
+  responseError = (err) => {
+    const errMsg = err.response.data.message;
+    this.setState({...this.state, errors: errMsg})
+  }
+
+  resetNewInput= () => {
+    this.setState({ ...this.state, todoNameInput: ''})
+  }
 
   postNewTodo = () => {
     axios.post(URL, { name: this.state.todoNameInput})
     .then(res => {
       this.fetchAllTodos();
-      this.setState({ ...this.state, todoNameInput: ''})
+      this.resetNewInput();
     })
-    .catch(err => {
-      const errMsg = err.response.data.message;
-      this.setState({...this.state, errors: errMsg})
-    })
+    .catch(this.responseError)
   }
 
   onChange = (evt) => {
@@ -43,10 +48,7 @@ export default class App extends React.Component {
       const todoData = res.data.data;
       this.setState({ ...this.state, todos: todoData})
     })
-    .catch(err => {
-      const errMsg = err.response.data.message;
-      this.setState({...this.state, errors: errMsg})
-    })
+    .catch(this.responseError)
   }
 
 
