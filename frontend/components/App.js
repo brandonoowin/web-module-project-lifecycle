@@ -85,7 +85,7 @@ export default class App extends React.Component {
             )
             return acc
           }, [])
-          //return 
+          //THIS MADE NO SENSE 
         }
         <form onSubmit={this.onSubmit}>
           <input value={this.state.todoNameInput} type='text' placeholder='Type Todo' onChange={this.onChange}/>
