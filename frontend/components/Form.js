@@ -6,6 +6,7 @@ export default class Form extends React.Component {
       <div>
         <input type='text' placeholder='Type Todo'/>
         <input type='submit'/>
+        <button>Clear Completed</button>
       </div>
     )
   }
