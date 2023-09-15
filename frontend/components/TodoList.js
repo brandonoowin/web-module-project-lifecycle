@@ -1,4 +1,5 @@
 import React from 'react'
+import Todo from './Todo'
 
 export default class TodoList extends React.Component {
   render() {
@@ -8,7 +9,11 @@ export default class TodoList extends React.Component {
           {
             this.props.todos.reduce((acc , td) => {
               if (this.props.displayCompleted || !td.completed) return acc.concat(
-                <div key={td.id} onClick={this.props.toggleTodos(td.id)}>{td.name} {td.completed ? ' - DONE' : '' }</div>
+                <Todo 
+                toggleTodos={this.props.toggleTodos}
+                todo={td}
+                key={td.id} 
+                />
               )
               return acc
             }, [])
