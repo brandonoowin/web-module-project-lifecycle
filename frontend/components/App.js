@@ -1,6 +1,7 @@
 import React from 'react'
 import Form from './Form'
 import axios from 'axios';
+import TodoList from './TodoList'
 
 
 const URL = 'http://localhost:9000/api/todos'
@@ -49,7 +50,10 @@ export default class App extends React.Component {
       this.setState({...this.state, todos: this.state.todos.concat(res.data.data)})
       this.resetNewInput();
     })
-    .catch(this.responseError)
+    .catch(err => {
+      const errMsg = err.response.data.message;
+      this.setState({...this.state, errors: errMsg})
+    })
   }
 
   onChange = (evt) => {
@@ -63,7 +67,10 @@ export default class App extends React.Component {
       const todoData = res.data.data;
       this.setState({ ...this.state, todos: todoData})
     })
-    .catch(this.responseError)
+    .catch(err => {
+      const errMsg = err.response.data.message;
+      this.setState({...this.state, errors: errMsg})
+    })
   }
 
 
@@ -77,16 +84,12 @@ export default class App extends React.Component {
     return (
       <div>
         <div style={{color: 'red'}}>{this.state.errors}</div>
-        <h1>Todos:</h1>
-        {
-          this.state.todos.reduce((acc , td) => {
-            if (this.state.displayCompleted || !td.completed) return acc.concat(
-              <div key={td.id} onClick={this.toggleTodos(td.id)}>{td.name} {td.completed ? ' - DONE' : '' }</div>
-            )
-            return acc
-          }, [])
-          //THIS MADE NO SENSE 
-        }
+        <TodoList 
+        todos={this.state.todos}
+        displayCompleted={this.state.displayCompleted}
+        toggleTodos={this.toggleTodos}
+        />
+        
         <Form 
         onSubmit={this.onSubmit} 
         todoNameInput={this.state.todoNameInput}
