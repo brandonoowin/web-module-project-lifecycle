@@ -87,11 +87,13 @@ export default class App extends React.Component {
           }, [])
           //THIS MADE NO SENSE 
         }
-        <form onSubmit={this.onSubmit}>
-          <input value={this.state.todoNameInput} type='text' placeholder='Type Todo' onChange={this.onChange}/>
-          <input type='submit' />
-          </form>
-          <button onClick={this.toggleDisplayCompleted}>{this.state.displayCompleted ? ' Hide' : ' Show'} Completed</button>
+        <Form 
+        onSubmit={this.onSubmit} 
+        todoNameInput={this.state.todoNameInput}
+        onChange={this.onChange}
+        toggleDisplayCompleted={this.toggleDisplayCompleted}
+        displayCompleted={this.state.displayCompleted}
+        />
       </div>
     )
   }
