@@ -12,7 +12,18 @@ export default class App extends React.Component {
       todos: [], 
       errors: '',
       todoNameInput: '', 
+      completed: false, 
     }
+  }
+  toggleTodos = (id) => () => {
+    axios.patch(`${URL}/${id}`)
+    .then(res => {
+      this.setState({...this.state, todos: this.state.todos.map(td => {
+        if (td.id !== id) return td
+        return res.data.data
+      })})
+    })
+    .catch(this.responseError())
   }
 
   onSubmit = (evt) => {
@@ -65,7 +76,7 @@ export default class App extends React.Component {
         <h1>Todos:</h1>
         {
           this.state.todos.map(td => {
-            return <div key={td.id}>{td.name}</div>
+            return <div key={td.id} onClick={this.toggleTodos(td.id)}>{td.name} {td.completed ? ' - DONE' : '' }</div>
           })
         }
         <form onSubmit={this.onSubmit}>
